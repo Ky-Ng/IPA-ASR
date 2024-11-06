@@ -1,0 +1,3 @@
+[submodule "TIMIT-Database"]
+	path = TIMIT-Database
+	url = git@github.com:Ky-Ng/TIMIT-Database.git
