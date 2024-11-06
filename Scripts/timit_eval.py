@@ -11,7 +11,7 @@ model = Wav2Vec2ForCTC.from_pretrained(
 timit = load_dataset('timit_asr', data_dir="TIMIT-Database/TIMIT")
 
 # Constants
-TIMIT_EXAMPLE = 0
+TIMIT_EXAMPLE = 5
 TARGET_SR = 16000
 audio_path = timit['train']['file'][TIMIT_EXAMPLE] # Thick glue oozed ...
 
