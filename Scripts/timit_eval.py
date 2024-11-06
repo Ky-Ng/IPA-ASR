@@ -1,9 +1,11 @@
 from transformers import Wav2Vec2Processor, Wav2Vec2ForCTC
 from datasets import load_dataset
-from TIMIT_Helpers.timit_lookup import getTimitToIPA, compareTranscriptions
-from Evaluation.evalutation_util import remove_diacritics
+from evaluate import load
 import librosa
 import torch
+
+from TIMIT_Helpers.timit_lookup import getTimitToIPA, compareTranscriptions
+from Evaluation.evalutation_util import remove_diacritics
 
 # Load in Model
 processor = Wav2Vec2Processor.from_pretrained(
@@ -11,6 +13,7 @@ processor = Wav2Vec2Processor.from_pretrained(
 model = Wav2Vec2ForCTC.from_pretrained(
     "facebook/wav2vec2-xlsr-53-espeak-cv-ft")
 timit = load_dataset('timit_asr', data_dir="TIMIT-Database/TIMIT")
+cer = load("cer")
 
 # Constants
 TIMIT_EXAMPLE = 1
@@ -44,3 +47,11 @@ print(timit['train']['text'][TIMIT_EXAMPLE])
 compareTranscriptions(ipa_timit_transcription, cleanedup_w2v2p2_transcription)
 
 # Evaluate on Phoneme Error Rate
+print(''.join(ipa_timit_transcription))
+print("".join(cleanedup_w2v2p2_transcription))
+
+character_error_rate = cer.compute(
+    predictions=["".join(ipa_timit_transcription)],
+    references=["".join(cleanedup_w2v2p2_transcription)]
+)
+print("cer:", character_error_rate)
