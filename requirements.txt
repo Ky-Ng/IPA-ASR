@@ -109,3 +109,8 @@ xxhash==3.5.0
 yarl==1.13.1
 datasets
 jiwer
+
+seaborn
+matplotlib
+editdistance
+biopython
