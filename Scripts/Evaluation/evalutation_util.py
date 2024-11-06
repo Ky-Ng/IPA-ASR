@@ -1,6 +1,8 @@
 import numpy as np
 from collections import Counter
 from Bio import pairwise2
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 """
 Base Lexicon ordered in IPA Tradition of place/voice then manner
@@ -45,7 +47,11 @@ def remove_diacritics(transcription: list[str]) -> list[str]:
     return no_vowel_lengthening_marker
 
 
-def create_base_confusion_matrix(lexicon: list[str] = BASE_LEXICON) -> np.ndarray:
+def format_lexicon(lexicon: list[str]):
+    return list(lexicon) + ["INS", "DEL"]
+
+
+def create_base_confusion_matrix(lexicon: list[str] = format_lexicon(BASE_LEXICON)) -> np.ndarray:
     """
     Create the base for the confusion matrix defaulting to the size of the BASE_LEXICON
     """
@@ -53,7 +59,7 @@ def create_base_confusion_matrix(lexicon: list[str] = BASE_LEXICON) -> np.ndarra
     return matrix
 
 
-def build_confusion_matrix(true_pred_pairs: list[tuple[str, str]], lexicon: list[str] = BASE_LEXICON) -> np.ndarray:
+def build_confusion_matrix(true_pred_pairs: list[tuple[str, str]], lexicon: list[str] = format_lexicon(BASE_LEXICON)) -> np.ndarray:
     """
     Builds a confusion matrix on ((`predicted phoneme`, `true phoneme`), number of occurences)
     - Uses Biopython `pairwise2`
@@ -98,15 +104,27 @@ def build_confusion_matrix(true_pred_pairs: list[tuple[str, str]], lexicon: list
 
     # Step 5) Visualize alignments as a confusion matrix
     # Step 5A) Prep the lexicon with edit markings
-    lexicon += ["INS", "DEL"]
+    lexicon = format_lexicon(lexicon)
     lexicon_matrix_lookup = {
         token: i for i, token in enumerate(lexicon)
     }
 
     # Step 5B) Populate confusion matrix
     matrix = create_base_confusion_matrix(lexicon=lexicon)
-    
+
+    # X axis is actual, Y axis is predicted
     for (actual, predicted), count in confusion_counts.items():
         matrix[lexicon_matrix_lookup[actual],
                lexicon_matrix_lookup[predicted]] = count
     return matrix
+
+
+def visualize_confusion_matrix(confusion_matrix: np.ndarray, lexicon: list[str] = BASE_LEXICON, title:str="") -> None:
+    plt.figure(figsize=(10, 8))
+    sns.heatmap(confusion_matrix, annot=True, xticklabels=format_lexicon(lexicon), yticklabels=format_lexicon(lexicon))
+
+    plt.title(f"Confusion Matrix: Aligned Phonemes {title}" )
+    plt.xlabel("Actual Phonemes")
+    plt.ylabel("Predicted Phonemes")
+    
+    plt.show()
