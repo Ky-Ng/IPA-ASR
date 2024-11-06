@@ -1,6 +1,7 @@
 from transformers import Wav2Vec2Processor, Wav2Vec2ForCTC
 from datasets import load_dataset
 from TIMIT_Helpers.timit_lookup import getTimitToIPA, compareTranscriptions
+from Evaluation.evalutation_util import remove_diacritics
 import librosa
 import torch
 
@@ -32,6 +33,7 @@ with torch.no_grad():
 # take argmax and decode
 predicted_ids = torch.argmax(logits, dim=-1)
 transcription = processor.batch_decode(predicted_ids)
+cleanedup_w2v2p2_transcription = remove_diacritics(transcription[0].split(" "))
 
 # TIMIT cleaned up transcription
 orig_timit_transcription = timit['train']['phonetic_detail'][TIMIT_EXAMPLE]['utterance']
@@ -39,6 +41,6 @@ ipa_timit_transcription = getTimitToIPA(orig_timit_transcription)
 
 print(audio_path)
 print(timit['train']['text'][TIMIT_EXAMPLE])
-compareTranscriptions(ipa_timit_transcription, transcription[0].split(" "))
+compareTranscriptions(ipa_timit_transcription, cleanedup_w2v2p2_transcription)
 
-
+# Evaluate on Phoneme Error Rate
