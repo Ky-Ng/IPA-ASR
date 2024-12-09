@@ -2,6 +2,8 @@
 
 # Dataset
 datasets
+librosa
 soundfile
+pandas
 
 transformers
