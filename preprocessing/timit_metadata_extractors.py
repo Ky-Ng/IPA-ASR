@@ -15,8 +15,8 @@ DIALECT_REGION_LOOKUP = {
 }
 
 
-def get_speech_duration(time_series: np.array, sr: int) -> np.float16:
-    return np.float16(len(time_series))/sr
+def get_speech_duration(time_series: np.array, sr: int) -> np.float64:
+    return np.float64(len(time_series)) / sr
 
 
 def get_timit_path(abs_path: str, base_path: str) -> str:
@@ -41,8 +41,8 @@ def get_speaker_info(timit_rel_path: str) -> tuple[tuple[str, str], str]:
         i.e. TRAIN/DR4/MMDM0/SI681.wav
 
     returns:
-        dialect_region in the form [DR<IDX>, DR Name]
-        sex denoted by `m` or `f` 
+        dialect_region in the form (DR<IDX>, DR Name)
+        speaker_info (speaker_id , sex denoted by `m` or `f`)
     """
 
     # Get the prefixes for each part of the path, ignoring `./` at the beginning
@@ -52,9 +52,12 @@ def get_speaker_info(timit_rel_path: str) -> tuple[tuple[str, str], str]:
     dialect_region = splits[1]
     dialect_region_name = DIALECT_REGION_LOOKUP[dialect_region]
 
+    # Speaker ID in 3rd position
+    speaker_id = splits[2]
+
     # sex is denoted by the first letter of splits[2]
     sex = splits[2][0]
-    return (dialect_region, dialect_region_name), sex
+    return (dialect_region, dialect_region_name), (speaker_id, sex)
 
 
 def get_text(abs_timit_txt_path: str) -> str:
@@ -85,3 +88,27 @@ def get_transcription_detail(abs_timit_transcript_path: str) -> list[dict]:
     df = pd.read_csv(abs_timit_transcript_path, sep=r"\s+", names=[
                      "start", "stop", "utterance"])
     return df.to_dict(orient="records")
+
+
+def get_replace_ending(path: str, new_extension: str) -> str:
+    # Get the base name of the path
+    base_name, _current_extension = os.path.splitext(path)
+
+    # Remove the . if it exists
+    new_extension = new_extension.lstrip(".")
+
+    # concatenate the `new_extension`
+    return f"{base_name}.{new_extension}"
+
+
+def get_sentence_info(path: str) -> tuple[str, str]:
+    """
+    Takes in an absolute path to a TIMIT file and returns
+    the sentence ID (S<SENTENCE_TYPE><ID#>) and 
+    sentence_type (2 letter code either `SA`, `SX`, `SI`)
+    """
+    file_name = os.path.basename(path)
+    sentence_id, _file_extension = os.path.splitext(file_name)
+    sentence_type = sentence_id[:2]
+
+    return sentence_id, sentence_type
