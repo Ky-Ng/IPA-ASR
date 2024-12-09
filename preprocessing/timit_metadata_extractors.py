@@ -3,6 +3,8 @@ import numpy as np
 import pandas as pd
 import os
 
+from timit_ipa_translation import getTimitToIPA
+
 DIALECT_REGION_LOOKUP = {
     "DR1":  "New England",
     "DR2":  "Northern",
@@ -112,3 +114,8 @@ def get_sentence_info(path: str) -> tuple[str, str]:
     sentence_type = sentence_id[:2]
 
     return sentence_id, sentence_type
+
+def get_ipa_transcription(phonetic_detail) -> str:
+    timit_transcription = [seg["utterance"] for seg in phonetic_detail]
+    ipa_transcription = getTimitToIPA(timit_transcription)
+    return ipa_transcription
