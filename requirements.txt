@@ -1,0 +1,7 @@
+# Hugging Face
+
+# Dataset
+datasets
+soundfile
+
+transformers
