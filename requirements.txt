@@ -1,9 +1,11 @@
-# Hugging Face
-
 # Dataset
 datasets
+pandas
+scikit-learn
+
+# Audio processing
 librosa
 soundfile
-pandas
 
 transformers
+numpy
