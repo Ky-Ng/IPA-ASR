@@ -2,10 +2,16 @@
 datasets
 pandas
 scikit-learn
+numpy
 
 # Audio processing
 librosa
 soundfile
 
+# Evaluation
+torch
 transformers
-numpy
+protobuf
+phonemizer
+evaluate
+jiwer
