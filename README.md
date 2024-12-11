@@ -50,9 +50,9 @@ ___
 Although HuggingFace has an implementation of the TIMIT database, [`timit-asr/timit_asr`](https://huggingface.co/datasets/timit-asr/timit_asr), there are problems that prevent us from using the HuggingFace Hub dataset directly:
 1. TIMIT transcriptions are phonetic but not IPA (TIMIT has its own transcription system closely closely related to IPA)
 2. The original TIMIT dataset contains only `Train` / `Test` dataset splits but no `Validation` dataset to tune hyper-parameters
-3. HuggingFace `timit-asr/timit_asr` uses only `1/5` of the entire speech corpus (`<1 hour`).
+3. HuggingFace `timit-asr/timit_asr` uses only `1/5` of the entire speech corpus (`<1 hour`)
 	1. Since the dataset is `<5 hours` in total, using `1/5` of the dataset drastically impacts model performance
-4. HuggingFace `timit-asr/timit_asr` uses a deprecated dataset API, requiring users to download the audio files via 3rd party zip.
+4. HuggingFace `timit-asr/timit_asr` uses a deprecated dataset API, requiring users to download the audio files via 3rd party zip
 
 #### Creating Custom HuggingFace Dataset
 To address these issues, we contribute two datasets to HuggingFaceHub:
@@ -76,7 +76,6 @@ To address these issues, we contribute two datasets to HuggingFaceHub:
 | [`timit_dataset_splitter.py`](https://github.com/Ky-Ng/IPA-ASR/blob/main/preprocessing/timit_dataset_splitter.py)       | Helper to `timit_metadata_extractors` to stratify the Test dataset into Test and Validation                                                            |
 ### Training
 - To train the wav2vec2 IPA base model into  run the [`evaluation/fine_tune_w2v2.ipynb`](https://github.com/Ky-Ng/IPA-ASR/tree/main/evaluation)
-	- Note: the output tokens are learnable/can be found in `vocab_manual.json`
 	- Note: to save the model, make sure to edit the `HF_ID` to your HuggingFace UserID
 
 | Dependency                                                                                   | Description                                                                                                                                                                                                             |
