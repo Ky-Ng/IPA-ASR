@@ -72,7 +72,6 @@ To address these issues, we contribute two datasets to HuggingFaceHub:
 			1. The validation dataset splits the Test Dataset in half following the [TIMIT recommendation](https://github.com/Ky-Ng/TIMIT-Database/blob/main/TIMIT/covleb.DOC) of having unique speakers between training and validation/test dataset
 			2. Stratifies speaker population based on `speaker sex` and `speaker dialect region`
 #### Preprocessing Scripts
-![Data Processing Pipeline](assets/IPA_ASR_Pipeline.png)
 - To (re)create the datasets, run the [`preprocessing/split_data.ipynb`](https://github.com/Ky-Ng/IPA-ASR/blob/main/preprocessing/split_data.ipynb) notebook
 - Below lists the utils used in `split_data.ipynb`
 
