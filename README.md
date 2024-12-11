@@ -31,13 +31,7 @@ The 3 step `(1) Preprocess`, `(2) Fine Tune`, and `(3) Evaluate` pipeline above 
 | -------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
 | [`kylelovesllms/timit_asr`](https://huggingface.co/datasets/kylelovesllms/timit_asr)         | Implementation of TIMIT dataset with Test and Train split                                 |
 | [`kylelovesllms/timit_asr_ipa`](https://huggingface.co/datasets/kylelovesllms/timit_asr_ipa) | Implementation of  `kylelovesllms/timit_asr` with Validation Split and IPA Transcriptions |
-****
-- We expand on the existing HuggingFace [`timit-asr/timit_asr`](https://huggingface.co/datasets/timit-asr/timit_asr) and contribute two HuggingFace datasets in this project:
 
-| Dataset                                                                                      | Description                                                                               |
-| -------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| [`kylelovesllms/timit_asr`](https://huggingface.co/datasets/kylelovesllms/timit_asr)         | Implementation of TIMIT dataset with Test and Train split                                 |
-| [`kylelovesllms/timit_asr_ipa`](https://huggingface.co/datasets/kylelovesllms/timit_asr_ipa) | Implementation of  `kylelovesllms/timit_asr` with Validation Split and IPA Transcriptions |
 ### Models
 - Similar to `datasets`, the models used/trained in this project live in HuggingFace Hub
 
